@@ -1,35 +1,61 @@
 import {User} from "./search-panel";
-import {Table} from "antd";
+import {Table, TableProps} from "antd";
 import dayjs from 'dayjs';
+import {Link} from "react-router-dom";
+import {Pin} from "../../components/pin";
+import {useEditProject} from "../../utils/project";
 
 
-interface  Project {
-    id: string;
+export interface  Project {
+    id: number;
     name: string;
-    personId: string;
+    personId: number;
     pin: boolean;
     organization:string;
     created: number;
 
 }
 
-interface  ListProps {
-    list: Project[],
-    users: User[]
+interface  ListProps extends TableProps<Project>{
+    users: User[];
+    refresh?: () => void
+
 
 }
 
-export const List = ({list,users}:ListProps) => {
+export const List = ({users , ...props}:ListProps) => {
+    const {mutate} = useEditProject()
+    // 函数柯里化
+    const pinProject = (id: number) => (pin: boolean) =>
+        mutate({ id, pin }).then(props.refresh);
+
     return <Table
         //是否分页
         rowKey={"id"}
         pagination={false}
-        columns={[{
+        columns={[
+            {title:<Pin checked={true}
+                        disabled={true} />,
+                render(value, project){
+                    return <Pin
+                        checked={project.pin}
+                        onCheckedChange={pinProject(project.id)}/>
+                }
+
+        },
+            {
             title:'名称',
-            dataIndex:'name',
             // 根据字母顺序进行排序
-            sorter: (a, b) => a.name.localeCompare(b.name)
-        },{
+            sorter: (a, b) => a.name.localeCompare(b.name),
+            render(value, project){
+                return (
+                    <Link to={`projects/${String(project.id)}`}>{project.name}</Link>
+                );
+            }
+
+        }
+
+        ,{
             title:'部门',
             dataIndex:'organization'
         },
@@ -50,5 +76,5 @@ export const List = ({list,users}:ListProps) => {
                 </span>
         }}
         ,]}
-        dataSource={list}/>
+        {...props}/>
 };

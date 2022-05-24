@@ -2,16 +2,19 @@ import {FormEvent} from "react";
 import {useAuth} from "../context/auth-context";
 import {Button, Form, Input} from "antd";
 import {LongButton} from "./index";
+import {useAsync} from "../utils/use-async";
 
 
 const apiUrl = process.env.REACT_APP_API_URL
 
-export const LoginScreen = () => {
+export const LoginScreen = ({onError}:{onError:(error:Error) => void }) => {
     const {login,user} = useAuth()
+    const {run,isLoading} = useAsync(undefined,{throwOnError: true})
 
     // const handleSubmit = (event:FormEvent<HTMLFormElement>) => {
     //     // 阻止表单默认提交
     //     event.preventDefault()
+    //     将event.currentTarget.elements[0]类型强制转换为as HTMLInputElement).value类型。
     //     const username = (event.currentTarget.elements[0] as HTMLInputElement).value
     //     const password = (event.currentTarget.elements[1] as HTMLInputElement).value
     //     login({username,password})
@@ -21,7 +24,12 @@ export const LoginScreen = () => {
         username: string;
         password: string;
     }) => {
-        login(values)
+        try {
+           await run(login(values));
+        } catch (e :any){
+            onError(e)
+        }
+        // login(values)
         // try {
         //     await run(login(values));
         // } catch (e: any) {
@@ -45,7 +53,7 @@ export const LoginScreen = () => {
             </Form.Item>
 
             <Form.Item>
-                <LongButton htmlType={"submit"} type={"primary"}>登录</LongButton>
+                <LongButton loading={isLoading} htmlType={"submit"} type={"primary"}>登录</LongButton>
             </Form.Item>
 
         </Form>

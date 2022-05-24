@@ -94,3 +94,6 @@ export const FullPageLoading = () => (
     </FullPage>
 );
 
+export const ButtonNoPadding = styled(Button)`
+  padding: 0;
+`;

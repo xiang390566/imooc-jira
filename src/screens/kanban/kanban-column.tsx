@@ -3,25 +3,26 @@ import {Kanban} from "../../types/kanban";
 import {useTasks} from "../../utils/task";
 import {useKanbansQueryKey, useTasksModal, useTasksSearchParams} from "./util";
 import {useTaskTypes} from "../../utils/task-type";
-import taskIcon from "/src/assets/task.svg"
-import bugIcon from "/src/assets/bug.svg"
+import taskIcon from "./task.svg"
+import bugIcon from "./bug.svg"
 import styled from "@emotion/styled";
 import {Button, Card, Dropdown, Menu, Modal} from "antd";
 import {Task} from "../../types/task";
 import {Mark} from "../../components/mark";
 import {useDeleteKanban} from "../../utils/kanban";
 import {Row} from "../../components/lib";
+import { CreateTask } from "./create-task";
 
 
-const TaskTypeIcon = ({id} : { id : number }) => {
-    const {data: taskTypes} = useTaskTypes()
-    const name = taskTypes?.find((taskType) => taskType.id === id)?.name
-    if(!name) {
-        return null
+const TaskTypeIcon = ({ id }: { id: number }) => {
+    const { data: taskTypes } = useTaskTypes();
+    const name = taskTypes?.find((taskType) => taskType.id === id)?.name;
+    if (!name) {
+        return null;
     }
-    return <img alt={'task-icon'} src={name === 'task' ? taskIcon : bugIcon} style={{width: '1.6rem'}}/>
-
-}
+    return <img alt={"task-icon"} src={name === "task" ? taskIcon : bugIcon}
+    style={{width:'1.6rem'}}/>;
+};
 
 const TaskCard = ({ task }: { task: Task }) => {
     const { startEdit } = useTasksModal();
@@ -39,21 +40,26 @@ const TaskCard = ({ task }: { task: Task }) => {
         </Card>
     );
 };
-export const KanbanColumn = ({kanban}:{kanban:Kanban}) => {
-    const {data: allTasks} = useTasks(useTasksSearchParams())
-    const tasks = allTasks?.filter(task => task.kanbanId === kanban.id)
-    const { startEdit } = useTasksModal();
 
-    return (<Container>
-        <Row between={true}>
-            <h3>{kanban.name}</h3>
-            <More kanban={kanban} key={kanban.id} />
-        </Row>
-        <TasksContainer>
-        {tasks?.map((task) => <TaskCard task={task} />)}
-        </TasksContainer>
-    </Container>)
-}
+export const KanbanColumn = ({ kanban }: { kanban: Kanban }) => {
+    const { data: allTasks } = useTasks(useTasksSearchParams());
+    const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
+    return (
+        <Container>
+            <Row between={true}>
+                <h3>{kanban.name}</h3>
+                <More kanban={kanban} />
+            </Row>
+            <TasksContainer>
+                {tasks?.map((task) => (
+                    <TaskCard task={task} />
+                ))}
+                <CreateTask kanbanId={kanban.id} />
+            </TasksContainer>
+        </Container>
+    );
+};
+
 const More = ({ kanban }: { kanban: Kanban }) => {
     const { mutateAsync } = useDeleteKanban(useKanbansQueryKey());
     const startDelete = () => {
@@ -81,6 +87,7 @@ const More = ({ kanban }: { kanban: Kanban }) => {
         </Dropdown>
     );
 };
+
 export const Container = styled.div`
   min-width: 27rem;
   border-radius: 6px;

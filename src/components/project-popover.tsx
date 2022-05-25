@@ -7,7 +7,7 @@ import {useProjectModal} from "../screens/project-list/util";
 
 export const ProjectPopover = () => {
     const {open} = useProjectModal()
-    const {data:projects,isLoading} = useProjects()
+    const {data:projects,refetch} = useProjects()
     const pinnedProjects = projects?.filter((project) => project.pin);
 
     const content = <ContentContainer>
@@ -27,6 +27,7 @@ export const ProjectPopover = () => {
         </ButtonNoPadding>
     </ContentContainer>
     return <Popover
+        onVisibleChange={() =>refetch()}
         placement={"bottom"}
         content={content}>
         <span>

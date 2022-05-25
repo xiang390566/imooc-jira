@@ -22,11 +22,10 @@ export const useTasksSearchParams = () => {
     const [param, setParam] = useUrlQueryParam([
         "name",
         "typeId",
-        "processorId", //负责人
+        "processorId",
         "tagId",
     ]);
     const projectId = useProjectIdInUrl();
-    //任务框内部搜索时设置间隔时间
     const debouncedName = useDebounce(param.name, 200);
     return useMemo(
         () => ({

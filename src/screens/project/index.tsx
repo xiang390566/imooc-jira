@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {Routes,Route, useLocation, Navigate } from "react-router";
+import {Routes,Route, useLocation } from "react-router";
 import { KanbanScreen } from "../kanban";
 import { EpicScreen } from "../epic";
 import styled from "@emotion/styled";
@@ -28,10 +28,10 @@ export const ProjectScreen = () => {
             <Main>
                 <Routes>
                     {/*projects/:projectId/kanban*/}
-                    <Route path={"/kanban"} element={<KanbanScreen />} />
+                    <Route path={"kanban"} element={<KanbanScreen />} />
                     {/*projects/:projectId/epic*/}
-                    <Route path={"/epic"} element={<EpicScreen />} />
-                    <Navigate to={window.location.pathname + "/kanban"} replace={true} />
+                    <Route path={"epic"} element={<EpicScreen />} />
+                    <Route index element={<KanbanScreen />} />
                 </Routes>
             </Main>
         </Container>

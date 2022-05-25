@@ -7,12 +7,12 @@ import {useHttp} from "../../utils/http";
 import styled from "@emotion/styled";
 import {useAsync} from "../../utils/use-async";
 import {Button,  Typography} from "antd";
-import { Project } from "./list";
 import {useProjects} from "../../utils/project";
 import {useUsers} from "../../utils/user";
 import {useUrlQueryParam} from "../../utils/url";
 import {useProjectModal, useProjectsSearchParams} from "./util";
 import {ButtonNoPadding, ErrorBox, Row} from "../../components/lib";
+import {Project} from "../../types/project";
 
 
 const apiUrl = process.env.REACT_APP_API_URL

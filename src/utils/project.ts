@@ -1,9 +1,9 @@
 import {useAsync} from "./use-async";
-import {Project} from "../screens/project-list/list";
 import {useCallback, useEffect} from "react";
 import {cleanObject} from "./index";
 import {useHttp} from "./http";
 import {QueryKey, useMutation, useQuery, useQueryClient} from "react-query";
+import {Project} from "../types/project";
 
 export const useProjects = (param?: Partial<Project>) => {
     const client = useHttp();

@@ -1,4 +1,4 @@
-import {User} from "./screens/project-list/search-panel";
+import {User} from "./types/user";
 // 操纵TOKEN。真实环境中使用firebase这种第三方服务的话，这个文件不需要开发者开发。
 
 const apiUrl = process.env.REACT_APP_API_URL

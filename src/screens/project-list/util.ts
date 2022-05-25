@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { useUrlQueryParam } from "../../utils/url";
+import { useProject } from "../../utils/project";
+import {useSetUrlSearchParam, useUrlQueryParam } from "../../utils/url";
 //import { useProject } from "../utils/project";
 
 // 项目列表搜索的参数
@@ -26,30 +27,30 @@ export const useProjectsQueryKey = () => {
     const [params] = useProjectsSearchParams();
     return ["projects", params];
 };
+// useProjectModal 全局URL状态管理功能
+export const useProjectModal = () => {
+    const [{ projectCreate }, setProjectCreate] = useUrlQueryParam([
+        "projectCreate",
+    ]);
+    const [{ editingProjectId }, setEditingProjectId] = useUrlQueryParam([
+        "editingProjectId",
+    ]);
+    const setUrlParams = useSetUrlSearchParam();
+    const { data: editingProject, isLoading } = useProject(
+        Number(editingProjectId)
+    );
 
-// export const useProjectModal = () => {
-//     const [{ projectCreate }, setProjectCreate] = useUrlQueryParam([
-//         "projectCreate",
-//     ]);
-//     const [{ editingProjectId }, setEditingProjectId] = useUrlQueryParam([
-//         "editingProjectId",
-//     ]);
-//     const setUrlParams = useSetUrlSearchParam();
-//     const { data: editingProject, isLoading } = useProject(
-//         Number(editingProjectId)
-//     );
+    const open = () => setProjectCreate({ projectCreate: true });
+    const close = () => setUrlParams({ projectCreate: "", editingProjectId: "" });
+    const startEdit = (id: number) =>
+        setEditingProjectId({ editingProjectId: id });
 
-//     const open = () => setProjectCreate({ projectCreate: true });
-//     const close = () => setUrlParams({ projectCreate: "", editingProjectId: "" });
-//     const startEdit = (id: number) =>
-//         setEditingProjectId({ editingProjectId: id });
-//
-//     return {
-//         projectModalOpen: projectCreate === "true" || Boolean(editingProjectId),
-//         open,
-//         close,
-//         startEdit,
-//         editingProject,
-//         isLoading,
-//     };
-// };
+    return {
+        projectModalOpen: projectCreate === "true" || Boolean(editingProjectId),
+        open,
+        close,
+        startEdit,
+        editingProject,
+        isLoading,
+    };
+};

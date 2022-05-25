@@ -3,6 +3,7 @@ import {useAuth} from "../context/auth-context";
 import {Button, Form, Input} from "antd";
 import {LongButton} from "./index";
 import {useAsync} from "../utils/use-async";
+import {useDispatch} from "react-redux";
 
 
 const apiUrl = process.env.REACT_APP_API_URL
@@ -10,7 +11,7 @@ const apiUrl = process.env.REACT_APP_API_URL
 export const LoginScreen = ({onError}:{onError:(error:Error) => void }) => {
     const {login,user} = useAuth()
     const {run,isLoading} = useAsync(undefined,{throwOnError: true})
-
+    const dispatch = useDispatch()
     // const handleSubmit = (event:FormEvent<HTMLFormElement>) => {
     //     // 阻止表单默认提交
     //     event.preventDefault()
@@ -24,17 +25,13 @@ export const LoginScreen = ({onError}:{onError:(error:Error) => void }) => {
         username: string;
         password: string;
     }) => {
+        // dispatch(loginThunk(values))
         try {
            await run(login(values));
         } catch (e :any){
             onError(e)
         }
-        // login(values)
-        // try {
-        //     await run(login(values));
-        // } catch (e: any) {
-        //     onError(e);
-        // }
+
     };
 
     return (

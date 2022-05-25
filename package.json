@@ -6,6 +6,7 @@
     "@craco/craco": "^6.4.3",
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
+    "@reduxjs/toolkit": "^1.8.2",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
@@ -24,6 +25,7 @@
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
     "react-query": "^3.39.0",
+    "react-redux": "^8.0.2",
     "react-router": "^6.3.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
@@ -56,6 +58,7 @@
   },
   "devDependencies": {
     "@types/qs": "^6.9.7",
+    "@types/react-redux": "^7.1.24",
     "babel-eslint": "^10.1.0",
     "json-server": "^0.17.0"
   }
